@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+before_install:
+  - docker-build -t jpkakkassery/react-test -f ./client/Dockerfile.dev ./client
+script:
+  - docker run jpkakkassery/react-test npm test -- --coverage
+after_success:
+  - docker build -t jpkakkassery/multi-client ./client
+  - docker build -t jpkakkassery/multi-nginx ./nginx
+  - docker build -t jpkakkassery/multi-server ./server
+  - docker build -t jpkakkassery/multi-worker ./worker
+
+  #log-into travis-ci.org => Select your project 'mult-docker' =>More Options | Settings | Env. Variables
+  #Name: DOCKER_ID value:jpkakkassery - Add
+  #Name: DOCKER_PASSWORD value: <pwd>  
+  #Below command is to login to dockerhub from Travis.
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+    #Take these images and push to docker hub for that do following:
+  - docker push jpkakkassery/multi-client
+  - docker push jpkakkassery/multi-nginx
+  - docker push jpkakkassery/multi-server
+  - docker push jpkakkassery/multi-worker
