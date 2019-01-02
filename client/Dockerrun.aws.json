@@ -21,7 +21,6 @@
             "hostname": "worker",
             "essential": false,
             "memory": 128
-
         },
         {
             "name": "nginx",
@@ -37,6 +36,5 @@
             "links": ["client","server"],
             "memory": 128
         }
-
     ]
 }
