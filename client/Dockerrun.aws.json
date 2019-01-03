@@ -27,7 +27,7 @@
             "image": "jpkakkassery/multi-nginx",
             "hostname": "nginx",
             "essential": true,
-            "portMap": [
+            "portMappings": [
                 {
                     "hostPort": 80,
                     "containerPort": 80
